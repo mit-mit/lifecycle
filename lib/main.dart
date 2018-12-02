@@ -48,14 +48,14 @@ class _MyHomePageState extends State<MyHomePage> {
     _counter = (prefs.getInt('counter') ?? 0);
     _lastSaved = (prefs.getString('last-saved') ?? 'Unknown');
 
-    SystemChannels.lifecycle.setMessageHandler((String event) {
+    SystemChannels.lifecycle.setMessageHandler((String event) async {
       if (event == AppLifecycleState.paused.toString()) {
-        saveState();
+        await saveState();
       }
     });
   }
 
-  void saveState() async {
+  Future<void> saveState() async {
     await prefs.setInt('counter', _counter);
     _lastSaved = DateTime.now().toString();
     await prefs.setString('last-saved', _lastSaved);
